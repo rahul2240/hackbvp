@@ -58,8 +58,7 @@ def download_video_and_process(video_id, video_url):
 
 	print ("Video downloaded {}".format(video_url))
 	try:
-		frames, no_person, no_faces, eyes_open, eyes_closed = extract_frames(video_id, video_path, FPS, frames_dest, result_dest) 
-		print ("Video processing done {} -> {}, {}, {}, {}, {}, {}".format(video_path, frames, FPS, no_person, no_faces, eyes_open, eyes_closed))
+		pdf_link = extract_frames(video_id, video_path, FPS, frames_dest, result_dest) 
 	except Exception as e:
 		print('video processing failed', e)
 
@@ -83,6 +82,8 @@ def download_video_and_process(video_id, video_url):
 		shutil.rmtree(frames_dest)
 	except:
 		pass
+
+    return pdf_link
 		
 
 def extract_frames(video_id, video_path, FPS, frames_dest, result_dest):
@@ -93,10 +94,10 @@ def extract_frames(video_id, video_path, FPS, frames_dest, result_dest):
 	# GENERATING CODE STARTS HERE
 	print('Sending to generate notes:')
 	try:
-		notes.start_from_here(video_id, frames_dest, result_dest, 0.92)
-		print('Notes Are generated: Moving to analysis')
+		pdf_link = notes.start_from_here(video_id, frames_dest, result_dest, 0.92)
+		print('Notes Are generated: ')
 	except:
 		print('notes generation failed')
-	return 
+	return pdf_link
 	
 

@@ -120,7 +120,7 @@ def start_from_here(video_id, frame_path, result_path, thresh):
     final_images_paths = frame_diff(frame_path, max_th, min_th)
 
     pdf = FPDF('P', 'mm', (200, 112))
-
+    uploaded_pdf = ''
     for j in final_images_paths:
         pdf.add_page()
         pdf.image(j, 0, 0, 200)
@@ -138,3 +138,5 @@ def start_from_here(video_id, frame_path, result_path, thresh):
         os.remove(pdf_path)
     except:
         print('pdf path not removed')
+
+    return uploaded_pdf
