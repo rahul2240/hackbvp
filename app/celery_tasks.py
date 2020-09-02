@@ -21,7 +21,7 @@ def download_video_and_process(video_id, video_url):
     video_name = video_url[video_url.index('://') + 3 :].replace('/', '-').replace('?', '-').replace('=', '-')
     video_path = os.path.join(os.getcwd(), 'videos_downloaded', video_name)
 
-
+    pdf_link = ''
     if os.path.exists(video_name):
         print('video already exist')
         return
@@ -48,9 +48,6 @@ def download_video_and_process(video_id, video_url):
 
     if not os.path.exists(frames_dest):
         os.makedirs(frames_dest)
-    else:
-        print ("Duplicate request for video {}".format(video_url))
-        return
 
     if not os.path.exists(result_dest):
         os.makedirs(result_dest)
@@ -67,7 +64,10 @@ def download_video_and_process(video_id, video_url):
     except Exception as e:
         print("Unable to delete directory: ", e)
 
-
+    try:
+        os.system("rm {}".format(video_path))
+    except Exception as e:
+        print("cant delete video", e)
 
     return pdf_link
 		
@@ -76,7 +76,7 @@ def extract_frames(video_id, video_path, FPS, frames_dest, result_dest):
     print ("extract_frames {}".format(video_path))
     os.system("ffmpeg -ss 00:01:03 -loglevel quiet -stats -i {} -vf fps={} {}/frame%06d.jpg".format(video_path, FPS, frames_dest))
     # Run processing on frames
-
+    pdf_link = ''
     # GENERATING CODE STARTS HERE
     print('Sending to generate notes:')
     try:
