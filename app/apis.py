@@ -11,9 +11,10 @@ def process_video():
     video_id = request.form['video_id']
     video_url = request.form['video_url']
     print("hello {}".format( video_id))
-    task = celery_tasks.download_video_and_process(video_id, video_url)
-
-    return jsonify(status='OK')
+    task1 = celery_tasks.download_video_and_process(video_id, video_url)
+    output = {}
+    output['link'] = task1
+    return jsonify(output)
 
 
 @app.route('/health', methods=['GET'])
